@@ -18,7 +18,7 @@ rate of 1% in the following manner.
 
 ```Go
     redisClient := redis.NewUniversalClient(&redis.UniversalOptions{Addrs: []string{":6379"}})
-    bitset := NewRedisBitSet(redisClient, uuid.New().String(), time.Minute)
+    bitset := bloom.NewRedisBitSet(redisClient, uuid.New().String(), time.Minute)
     filter := bloom.NewWithEstimates(1000000, 0.01, bitset) 
 ```
 
