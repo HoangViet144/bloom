@@ -1,5 +1,6 @@
 Redis Bloom filters
 -------------
+[![Test](https://github.com/HoangViet144/bloom/actions/workflows/test.yml/badge.svg)](https://github.com/HoangViet144/bloom/actions/workflows/test.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/HoangViet144/bloom.svg)](https://pkg.go.dev/github.com/HoangViet144/bloom)
 
 A Bloom filter is a concise/compressed representation of a set, where the main
@@ -52,7 +53,7 @@ Godoc documentation:  https://pkg.go.dev/github.com/HoangViet144/bloom
 ## Installation
 
 ```bash
-go get -u github.com/HoangViet144/bloom
+go get github.com/HoangViet144/bloom
 ```
 
 ## Verifying the False Positive Rate
@@ -94,14 +95,6 @@ This project includes a Makefile that allows you to test and build the project w
 To see all available options:
 ```bash
 make help
-```
-
-## Running all tests
-
-Before committing the code, please check if it passes all tests using (note: this will install some dependencies):
-```bash
-make deps
-make qa
 ```
 
 ## Design

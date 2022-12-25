@@ -1,9 +1,3 @@
-# MAKEFILE
-#
-# @author      Nicola Asuni <info@tecnick.com>
-# @link        https://github.com/bits-and-blooms/bloom
-# ------------------------------------------------------------------------------
-
 # List special make targets that are not associated with files
 .PHONY: help all test format fmtcheck vet lint coverage cyclo ineffassign misspell structcheck varcheck errcheck gosimple astscan qa deps clean nuke
 
