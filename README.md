@@ -1,8 +1,6 @@
-Bloom filters
+Redis Bloom filters
 -------------
-[![Test](https://github.com/bits-and-blooms/bloom/actions/workflows/test.yml/badge.svg)](https://github.com/bits-and-blooms/bloom/actions/workflows/test.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/bits-and-blooms/bloom)](https://goreportcard.com/report/github.com/bits-and-blooms/bloom)
-[![Go Reference](https://pkg.go.dev/badge/github.com/bits-and-blooms/bloom.svg)](https://pkg.go.dev/github.com/bits-and-blooms/bloom/v3)
+[![Go Reference](https://pkg.go.dev/badge/github.com/HoangViet144/bloom.svg)](https://pkg.go.dev/github.com/HoangViet144/bloom)
 
 A Bloom filter is a concise/compressed representation of a set, where the main
 requirement is to make membership queries; _i.e._, whether an item is a
@@ -18,7 +16,9 @@ You may construct the Bloom filter capable of receiving 1 million elements with 
 rate of 1% in the following manner. 
 
 ```Go
-    filter := bloom.NewWithEstimates(1000000, 0.01) 
+    redisClient := redis.NewUniversalClient(&redis.UniversalOptions{Addrs: []string{":6379"}})
+    bitset := NewRedisBitSet(redisClient, uuid.New().String(), time.Minute)
+    filter := bloom.NewWithEstimates(1000000, 0.01, bitset) 
 ```
 
 You should call `NewWithEstimates` conservatively: if you specify a number of elements that it is
@@ -47,12 +47,12 @@ For numerical data, we recommend that you look into the encoding/binary library.
     filter.Add(n1)
 ```
 
-Godoc documentation:  https://pkg.go.dev/github.com/bits-and-blooms/bloom/v3 
+Godoc documentation:  https://pkg.go.dev/github.com/HoangViet144/bloom
 
 ## Installation
 
 ```bash
-go get -u github.com/bits-and-blooms/bloom/v3
+go get -u github.com/HoangViet144/bloom
 ```
 
 ## Verifying the False Positive Rate
@@ -70,14 +70,14 @@ You can use it to validate the computed m, k parameters:
 
 ```Go
     m, k := bloom.EstimateParameters(n, fp)
-    ActualfpRate := bloom.EstimateFalsePositiveRate(m, k, n)
+    ActualfpRate := bloom.EstimateFalsePositiveRate(m, k, n, bitset)
 ```
 
 or
 
 ```Go
-    f := bloom.NewWithEstimates(n, fp)
-    ActualfpRate := bloom.EstimateFalsePositiveRate(f.m, f.k, n)
+    f := bloom.NewWithEstimates(n, fp, bitset)
+    ActualfpRate := bloom.EstimateFalsePositiveRate(f.m, f.k, n, bitset)
 ```
 
 You would expect `ActualfpRate` to be close to the desired false-positive rate `fp` in these cases.
